@@ -4,11 +4,13 @@ const prismaClientSingleton = () => {
   return new PrismaClient();
 };
 
+// 型定義の拡張
 declare global {
-  var prisma: undefined | ReturnType<typeof prismaClientSingleton>;
+  let prisma: PrismaClient | undefined; // 重要な変更点: undefined を含むように修正
 }
 
-const prisma = globalThis.prisma ?? prismaClientSingleton();
+// 既存のコード
+const prisma = globalThis.prisma || prismaClientSingleton();
 
 export default prisma;
 
